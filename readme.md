@@ -225,4 +225,163 @@ However, `v-model` also works with computed properties as well.
 ---
 ## Radio Button Bindings
 
+In HTML, each radio button is its own `<input>` field. However, they all correspond to the same piece of data in the Vue app. As a result, each `<input>` field will need its own `v-model `directive. However, the value of `v-model` for each `<input>` will be the same: the name of the property they all correspond to.
 
+```
+<legend>How was your experience?</legend>
+ 
+<input type="radio" id="goodReview" value="good" v-model="experienceReview" />
+<label for="goodReview">Good</label>
+ 
+<input type="radio" id="neutralReview" value="neutral" v-model="experienceReview" />
+<label for="neutralReview">Neutral</label>
+ 
+<input type="radio" id="badReview" value="bad" v-model="experienceReview" />
+<label for="badReview">Bad</label>
+```
+
+```
+const app = new Vue({ 
+  el: '#app', 
+  data: { experienceReview: '' } 
+});
+```
+
+---
+## Array Checkbox Bindings
+Checkboxes are used in situations where users can select multiple options for a form field. Unlike radio buttons, previous selections won’t be unselected when new selections are added. Instead, users can select all of the relevant checkboxes they’d like.
+
+As a result, the dynamic piece of data bound to these types of checkboxes must be an array. This array stores all of the values checked in the list of checkboxes.
+
+```
+<legend>Which of the following features would you like to see added?</legend>
+ 
+<input type="checkbox" id="search-bar" value="search" v-model="requestedFeatures">
+<label for="search-bar">Search Bar</label>
+ 
+<input type="checkbox" id="ads" value="ads" v-model="requestedFeatures">
+<label for="ads">Ads</label>
+ 
+<input type="checkbox" id="new-content" value="content" v-model="requestedFeatures">
+<label for="new-content">New Content</label>
+```
+
+```
+const app = new Vue({ 
+  el: '#app', 
+  data: { requestedFeatures: ['search', 'content'] } 
+});
+```
+
+---
+## Boolean Checkbox Bindings
+
+You may not always use a list of checkboxes. Sometimes you may only need a single checkbox to indicate whether a user has or has not checked a single option. In this case, we need to change the type of Vue data bound to the checkbox.
+
+As seen in the previous example, if you are using a list of checkboxes with values, they need to be bound to an array to store all of the checked values. A single checkbox, however, can be represented by a boolean value. If the checkbox is checked, the value is true — if the value is unchecked, the value is false.
+
+```
+<legend>Would you recommend this site to a friend?</legend>
+<input type="checkbox" v-model="wouldRecommend" />
+```
+```
+const app = new Vue({ 
+  el: '#app',
+  data: { wouldRecommend: false } 
+});
+```
+
+In this example, we’ve added `v-model` to a single checkbox. If the user would recommend this site to their friends, they will check the box and the value of `wouldRecommend` will be set to `true`. If they uncheck the box or leave it unchecked, the value of `wouldRecommend` will be `false`
+
+---
+## Form Event Handlers
+As seen in [MDN’s list of events](https://developer.mozilla.org/en-US/docs/Web/Events#Form_Events), forms have two built-in events that we need to handle: `submit` events (when a submit button is pressed to submit the final form) and `reset` events (when a reset button is pressed to reset the form to its initial state).
+
+As we saw briefly in Introduction to Vue, Vue uses the `v-on` directive to add event handlers. Event handlers will respond to the specified event by calling the specified method.
+
+We can use the `v-on `directive on `<form>` elements to add form event handling functionality, like so:
+
+```
+<form v-on:reset="resetForm">
+  ...
+  <button type="reset">Reset</button>
+</form>
+```
+
+
+```
+const app = new Vue({ 
+  el: '#app', 
+  methods: { resetForm: function() { ... } }
+});
+```
+Note: A common shorthand for event handlers involves replacing v-on: with @, like so: Both syntaxes are acceptable and used in Vue applications
+
+```
+<form @reset="resetForm">
+  ...
+</form>
+```
+
+---
+## Form Event Modifiers
+
+Event objects have built-in methods to modify this behavior, such as `Event.preventDefault() `(which stops the browser from performing its default event-handling behavior) and `Event.stopPropagation()` (which stops the event from continuing to be handled beyond the current handler).
+
+Vue gives developers access to these methods in the form of **modifiers**. Modifiers are properties that can be added to directives to change their behavior. Vue includes modifiers for many common front-end operations, such as event handling.
+
+```
+<form v-on:submit.prevent="submitForm">
+  ...
+</form>
+```
+---
+## Input Modifiers
+
+Modifiers are incredibly useful tools for quickly adding essential front-end logic to directives. Vue offers modifiers for many of their directives, including the main topic of this lesson: `v-model`. Yes, that’s right, we can use modifiers to make our form fields even more versatile.
+
+Vue offers the following three modifiers for v-model:
+
+- `.number` — automatically converts the value in the form field to a number
+  
+- `.trim` — removes whitespace from the beginning and ends of the form field value
+  
+- `.lazy` — only updates data values when `change` events are triggered (often when a user moves away from the form field rather than after every keystroke)
+
+---
+## Form Validation
+
+There are many ways to implement form validation in Vue — we will cover one of the more common methods.
+
+This method makes heavy use of the `disabled` `<button>` property. In brief, if `disabled` is present (or set to `true`) on a `<button>` element, that `<button>` will not do anything when pressed. Whereas if disabled is not present (or set to `false`), the button will work as expected. You can find more information about the disabled property in the MDN `<button>` documentation.
+
+
+`<button type="submit" v-bind:disabled="!formIsValid">Submit</button>`
+
+```
+const app = new Vue({ 
+  el: '#app', 
+  computed: { 
+    formIsValid: function() { ... } 
+  }
+});
+```
+
+- We use the `v-bind` directive to set the value of the `disabled` property on a “Submit” button to the value of a computed property called `formIsValid`
+  
+- `formIsValid` will contain some logic that checks the values stored on the Vue app and returns a boolean representing whether or not the form is valid
+
+- If the form is valid, `formIsValid` will return `true` and the `disabled` property will not be present on the “Submit” button, keeping the button enabled
+
+- If the form is not valid, `formIsValid` will return `false` and the button will be disabled
+
+---
+## Review
+
+- Form fields can be bound to Vue data using the `v-model` directive — how `v-model` is used depends on the type of field it is being added to
+
+- Form event handlers can be added using `v-on:submit` and `v-on:reset`
+  
+- Modifiers can be used to add functionality to directives — most importantly preventing page reload on form submission using `v-on:submit.prevent` and cleaning up form field values using `.number` and `.trim`
+  
+- Form validation can be implemented by setting the value of the `disabled `attribute on a `<button>` to the value of a computed property using `v-bind`

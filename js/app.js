@@ -44,6 +44,10 @@ const app = new Vue({
         ticketPluralization = 'ticket';
       }
       return this.ticketQuantity + ' ' + readableTicketType + ' ' + ticketPluralization;
+    },
+    //Form Validation
+    formIsValid: function () {
+      return this.firstName && this.lastName && this.email && this.purchaseAgreementSigned;
     }
   },
   //watch specialRequests for changes.
@@ -67,6 +71,10 @@ const app = new Vue({
       this.referrals = [];
       this.specialRequests = '';
       this.purchaseAgreementSigned = false;
+    },
+    submitForm: function () {
+      // Do something with form data
     }
+
   }
 });
