@@ -45,7 +45,8 @@
       <div class="form-row">
         <div class="form-field">
           <label for="email">Email</label>
-          <input type="text" id="email" v-model.trim="email" />
+          <!-- v-bind:style can also take an array of style objects Multiple Style Objects. -->
+          <input type="text" id="email" v-model.trim="email" v-bind:style="[touchedEmailStyles,invalidEmailStyles]" />
         </div>
       </div>
       <div class="form-row">
@@ -106,7 +107,7 @@
       <div>
         <button type="reset" class="reset">Reset</button>
         <!-- use the v-bind directive to set the value of the disabled property on a “Submit” button to the value of a computed property called formIsValid -->
-        <button type="submit" v-bind:disabled="!formIsValid">Confirm Tickets</button>
+        <button type="submit" v-bind:disabled="!formIsValid" v-bind:style='submitButtonStyles'>Confirm Tickets</button>
       </div>
     </form>
   </div>

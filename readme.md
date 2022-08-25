@@ -385,3 +385,98 @@ const app = new Vue({
 - Modifiers can be used to add functionality to directives — most importantly preventing page reload on form submission using `v-on:submit.prevent` and cleaning up form field values using `.number` and `.trim`
   
 - Form validation can be implemented by setting the value of the `disabled `attribute on a `<button>` to the value of a computed property using `v-bind`
+
+---
+# STYLING ELEMENTS WITH VUE
+## Inline Styles
+
+Here is the syntax for adding dynamic inline styles using Vue:
+
+```
+<h2 v-bind:style="{ color: breakingNewsColor, 'font-size': breakingNewsFontSize }">Breaking News</h2>
+```
+
+```
+const app = new Vue({ 
+  data: { 
+    breakingNewsColor: 'red',
+    breakingNewsFontSize: '32px'
+  }
+});
+```
+
+---
+
+## Computed Style Objects
+A common pattern for adding dynamic inline style objects is to add a dynamic Vue app property that generates the style object. For example, we could refactor the previous example as follows:
+
+```
+<h2 v-bind:style="breakingNewsStyles">Breaking News</h2>
+```
+
+```
+const app = new Vue({ 
+  data: { 
+    breakingNewsStyles: { 
+      color: 'red',
+      'font-size': '32px'
+    }
+  }
+});
+```
+
+In this example, we store the style object, breakingNewsStyles, as a Vue app property and then make that object the value of v-bind:style. Using this pattern, we can make style objects for specific, reusable use cases.
+
+---
+## Multiple Style Objects
+Another powerful aspect of v-bind:style is that it can also take an array of style objects as a value.
+
+```
+const app = new Vue({ 
+  data: {
+    newsHeaderStyles: { 
+      'font-weight': 'bold', 
+      color: 'grey'
+    },
+    breakingNewsStyles: { 
+      color: 'red'
+    }
+  }
+});
+```
+
+`<h2 v-bind:style="[newsHeaderStyles, breakingNewsStyles]">Breaking News</h2>`
+
+In this example, we’ve added another Vue app property, newsHeaderStyles. This is a style object that will presumably be used to style all news item headers. Then, using an array with v-bind:style, we add both of these style objects to our Breaking News element.
+
+You may notice that both of these style objects contain a color value. When this happens, the style object added later in the array gets priority. So, Breaking News will be bold and red. The grey color rule will be overridden and not used.
+
+---
+## Classes
+Let’s check out how to dynamically add CSS classes instead of inline styles.
+
+```
+<span v-bind:class="{ unread: hasNotifications }">Notifications</span>
+```
+
+```
+.unread {
+  background-color: blue;
+}
+```
+
+
+```
+const app = new Vue({
+  data: { notifications: [ ... ] },
+  computed: {
+    hasNotifications: function() {
+      return notifications.length > 0;
+    }
+  }
+}
+```
+
+
+```
+```
