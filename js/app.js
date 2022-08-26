@@ -50,44 +50,51 @@ const app = new Vue({
     },
     //Form Validation
     formIsValid: function () {
-      return this.firstName && this.lastName && this.email && this.purchaseAgreementSigned;
+      return this.firstName && this.lastName && this.emailIsValid && this.purchaseAgreementSigned;
     },
+    /* return a class object that will determine whether or not to add the touched and invalid classes to our “Email” field. */
+    emailClasses: function () {
+      return {
+        touched: this.email.length !== 0,
+        invalid: this.email && !this.emailIsValid
+      };
+    }
     //check of formIsValid if true and return different color,
-    submitButtonStyles: function () {
-      if (this.formIsValid) {
-        return {
-          'background-color': '#4c7ef3',
-          cursor: 'pointer'
-        }
-      } else {
-        return {
-          'background-color': 'gray',
-          cursor: 'default'
-        }
-      }
-    },
+    /*  submitButtonStyles: function () {
+       if (this.formIsValid) {
+         return {
+           'background-color': '#4c7ef3',
+           cursor: 'pointer'
+         }
+       } else {
+         return {
+           'background-color': 'gray',
+           cursor: 'default'
+         }
+       }
+     }, */
     /* This function will return a style object with a light gray border color if the “Email” field hasn’t been typed in yet and will return a darker gray border color if it has been */
-    touchedEmailStyles: function () {
-      if (this.email) {
-        return {
-          'border-color': '#bdbcbc',
-          'border-width': '2px'
-        }
-      } else {
-        return {
-          'border-color': '#e0e0e0',
-          'border-width': '2px'
-        }
-      }
-    },
-    invalidEmailStyles: function () {
+    /*  touchedEmailStyles: function () {
+       if (this.email) {
+         return {
+           'border-color': '#bdbcbc',
+           'border-width': '2px'
+         }
+       } else {
+         return {
+           'border-color': '#e0e0e0',
+           'border-width': '2px'
+         }
+       }
+     }, */
+    /* invalidEmailStyles: function () {
       if (this.email && !this.emailIsValid) {
         return {
           'background-color': '#ffeded',
           'border-color': '#da5252'
         }
       }
-    }
+    } */
   },
   //watch specialRequests for changes.
   /*  Whenever a user types "meet and greet" 

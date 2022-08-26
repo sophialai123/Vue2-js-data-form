@@ -47,7 +47,12 @@ select {
   padding: .71rem;
   margin-right: 1.21rem;
   background-color: #ffffff;
-  border: solid 1px #979797;
+  border: solid 1px #e0e0e0;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
 }
 
 textarea {
@@ -58,7 +63,7 @@ select {
   -webkit-appearance: none;
   -moz-appearance: none;
   -webkit-border-radius: 0px;
-  border-radius: 0;
+  border-radius: 0px;
   background-image: url("https://content.codecademy.com/courses/vue-instances/triangle.svg");
   background-position: 97% 50%;
   background-repeat: no-repeat;
@@ -128,21 +133,22 @@ legend {
 }
 
 button {
-  cursor: pointer;
+  cursor: default;
   padding: .85rem 2.29rem;
   border-radius: 4px;
   margin-right: 1.36rem;
-  background-color: #4c7ef3;
+  background-color: gray;
   font-size: 1.14rem;
   color: #ffffff;
   transition: .25s;
 }
 
-button:hover {
+button.active:hover {
   background-color: #1e5df1;
 }
 
 button.reset {
+  cursor: pointer;
   background-color: #e85b49;
 }
 
@@ -171,4 +177,27 @@ button.reset:hover {
 
 #developer-pane em {
   font-weight: bold;
+}
+
+
+/* sing a v-bind:class array to style the three states of our “Email” input field ( untouched, touched, and invalid) and style the field as a required field. */
+input.required {
+  border-width: 2px;
+}
+
+input.touched {
+  border-color: #bdbcbc;
+}
+
+input.invalid {
+  background-color: #ffeded;
+  border-color: #da5252;
+}
+
+/* when the form is valided 
+the button color changes */
+
+button.active {
+  cursor: pointer;
+  background-color: #4c7ef3;
 }
